@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Niklas Holtz">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blockly Prolog</title>
+    <link rel="icon" href="media/blockly_prolog.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="blockly_prolog/style.css" media="screen" />
+    <!-- Google Blockly -->
+    <script src="google_blockly/blockly_compressed.js"></script>
+    <script src="google_blockly/blocks_compressed.js"></script>
+    <script src="google_blockly/msg/js/de.js"></script>
+    <!-- BlocklyProlog -->
+    <script src="blockly_prolog/blockly-extensions.js"></script>
+    <script src="blockly_prolog/prolog-parser.js"></script>
+    <script src="blockly_prolog/dynamic-field-textinput.js"></script>
+    <script src="blockly_prolog/info-textfield.js"></script>
+    <script src="blockly_prolog/prolog-blocks.js"></script>
+    <script src="blockly_prolog/prolog-generator.js"></script>
+    <script src="blockly_prolog/tutorial-provider.js"></script>
+    <script src="blockly_prolog/example-provider.js"></script>
+    <script src="blockly_prolog/term-controller.js"></script>
+    <script src="blockly_prolog/output-controller.js"></script>
+    <script src="blockly_prolog/io-handler.js"></script>
+    <script src="blockly_prolog/menu-controller.js"></script>
+    <script src="blockly_prolog/tutorial-controller.js"></script>
+    <!-- Split.js -->
+    <script src="splitjs/docs/split.min.js"></script>
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="highlightjs/styles/github.css">
+    <script src="highlightjs/highlight.pack.js"></script>
+    <!-- TauProlog.js -->
+    <script src="tauprologjs/tau-prolog.js"></script>
+    <script src="tauprologjs/util/draw-derivation-trees.js"></script>
+    <script id="prolog-code.pl" type="text/prolog"></script>
+    <!-- Alertify.js -->
+    <script src="alertifyjs//alertify.min.js"></script>
+    <link rel="stylesheet" href="alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="alertifyjs/css/themes/semantic.css" />
+</head>
+<body>
+    <div id="sidebar" class="sidebar sidebar-collapsed">
+        <div id="sidebar-content">
+            <div id="app-title"><span class="blockly-color">Blockly</span><br>Prolog</div>
+            <div class="collapsible-menu">
+                <p class="sidebar-header">Beispiele</p>
+                <div class="expanded-content" id="example-list1"></div>
+                <div class="collapsed-content" id="example-list2"></div>
+                <a href="#" class="expand-button upturned">Weitere anzeigen</a>
+            </div>
+            <p class="sidebar-header">Tutorials</p>
+            <div class="collapsible-menu">
+                <a href="#" class="expand-button">Fakten und Abfragen</a>
+                <div id="tutorial-container-0" class="collapsed-content">
+
+                </div>
+            </div>
+            <div class="collapsible-menu">
+                <a href="#" class="expand-button">Regeln</a>
+                <div id="tutorial-container-2" class="collapsed-content">
+
+                </div>
+            </div>
+            <div class="collapsible-menu">
+                <a href="#" class="expand-button">Arithmetik</a>
+                <div id="tutorial-container-1" class="collapsed-content">
+
+                </div>
+            </div>
+            <div class="collapsible-menu">
+                <a href="#" class="expand-button">Listen</a>
+                <div id="tutorial-container-3" class="collapsed-content">
+
+                </div>
+            </div>
+        </div>
+        <!--
+        <div id="sidebar-footer">© Copyright 2019 Niklas Holtz,<br><span id="uni-tag">Carl von Ossietzky<br>Universität Oldenburg</span></div>
+        -->
+    </div>
+    <div id="sidebar-blur"></div>
+    <div id="page-content">
+        <div class="topnav">
+            <button id="menu-button" class="collapsed-menu-button">Menü</button>
+            <div id="right-nav">
+                <input type="text" id="program-name" placeholder="Programmname"/>
+                <input id="file-input" type="file" name="name" style="display: none;" />
+                <button id="save-button">Speichern</button>
+                <button id="load-button">Laden</button>
+            </div>
+        </div>
+        <div id="blockly-editor">
+            <div id="layout-left">
+                <!-- Blockly Workspace -->
+                <div id="blocklyDiv" style="position: absolute"></div>
+                <xml id="toolbox" style="display: none">
+
+                    <label text="Basics" web-class="rule-sep"></label>
+
+                    <block type="prolog_fact">
+                        <value name="PREDICATE">
+                            <block type="prolog_predicate"></block>
+                        </value>
+                        <value name="FACT_ARGS">
+                            <shadow type="info_block_statement">
+                                <field name="TEXT">Terme ..</field>
+                            </shadow>
+                        </value>
+                    </block>
+                    <block type="prolog_constant"></block>
+                    <block type="prolog_variable"></block>
+                    <block type="prolog_list">
+                        <value name="LIST_HEAD">
+                            <shadow type="info_block_statement">
+                                <field name="TEXT">Erstes Element ..</field>
+                            </shadow>
+                        </value>
+                        <value name="LIST_TAIL">
+                            <shadow type="info_block_statement">
+                                <field name="TEXT">Rest der Liste ..</field>
+                            </shadow>
+                        </value>
+                    </block>
+
+                    <label text="Mathematische Operationen" web-class="rule-sep"></label>
+
+                    <block type="prolog_operation">
+
+                        <value name="OP_ARGS">
+                            <shadow type="prolog_math_operation"></shadow >
+                        </value>
+                    </block>
+                    <block type="prolog_math_operation">
+                        <value name="FIRST_ARG">
+                            <shadow type="info_block_input">
+                                <field name="TEXT">?</field>
+                            </shadow>
+                        </value>
+                        <value name="SECOND_ARG">
+                            <shadow type="info_block_input">
+                                <field name="TEXT">?</field>
+                            </shadow>
+                        </value>
+                    </block>
+                    <block type="prolog_arithmetic_operation">
+                        <value name="FIRST_ARG">
+                            <shadow type="info_block_input">
+                                <field name="TEXT">?</field>
+                            </shadow>
+                        </value>
+                        <value name="SECOND_ARG">
+                            <shadow type="info_block_input">
+                                <field name="TEXT">?</field>
+                            </shadow>
+                        </value>
+                    </block>
+                    <block type="prolog_is_operation">
+                        <value name="FIRST_ARG">
+                            <shadow type="info_block_input">
+                                <field name="TEXT">?</field>
+                            </shadow>
+                        </value>
+                        <value name="SECOND_ARG">
+                            <shadow type="info_block_input">
+                                <field name="TEXT">?</field>
+                            </shadow>
+                        </value>
+                    </block>
+                    <block type="prolog_constant_input"></block>
+                    <block type="prolog_variable_input"></block>
+
+                    <label text="Regeln und Abfragen" web-class="rule-sep"></label>
+
+                    <block type="prolog_rule">
+                        <value name="INPUT_HEAD">
+                            <block type="prolog_rule_head_fact">
+                                <value name="PREDICATE">
+                                    <block type="prolog_predicate"></block>
+                                </value>
+                                <value name="FACT_ARGS">
+                                    <shadow type="info_block_statement">
+                                        <field name="TEXT">Dieser Fakt gilt ..</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        </value>
+                        <value name="INPUT_BODY">
+                            <block type="prolog_rule_body_con">
+                                <value name="ARGS">
+                                    <shadow type="info_block_statement">
+                                        <field name="TEXT">Wenn erfüllt ist ..</field>
+                                    </shadow>
+                                </value>
+                            </block>
+                        </value>
+                    </block>
+                    <block type="prolog_log_operation"></block>
+                    <block type="prolog_cut_fail"></block>
+                    <block type="prolog_query" editable="false">
+                        <statement name="INPUT">
+                            <block type="prolog_query_body" id="rWyydkU^`5#hnCEa[kY_" deletable="false" movable="false">
+                                <field name="OPERATOR">AND</field>
+                            </block>
+                        </statement>
+                    </block>
+                </xml>
+            </div>
+            <div id="layout-right">
+                <!-- Tutorial Window -->
+                <div id="tutorial-window">
+                    <button id="prevHint"><span class="big-sign"><</span><br>Zurück</button>
+                    <div id="tutorial-hint">Tutorial
+                        <p id="tutorial-text"></p>
+                    </div>
+                    <button id="nextHint"><span class="big-sign">></span><br>Weiter</button>
+                </div>
+                <!-- Generierter Code & Console-->
+                <table id="tableRight">
+                    <tr id="tabRow">
+                        <td id="tab_Prolog" class="tabon">Prolog</td>
+                        <td id="tab_XML" class="taboff">XML</td>
+                        <td id="tab_DerivationTree" class="taboff">Ableitungsbaum</td>
+                        <td class="buttonsRight">
+                            <button id="endTutorialButton">Tutorial beenden</button>
+                            <button id="nextTutorialButton">Nächstes Tutorial</button>
+                            <button id="trashButton">Löschen</button>
+                            <button id="runButton" class="primary">Ausführen</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="right_content">
+                            <pre id='content_Prolog' class="contenton source-code"></pre>
+                            <pre id="content_XML" class="contentoff source-code"></pre>
+                            <div id="content_DerivationTree" class="contentoff">
+                                <canvas id="tree_canvas"></canvas>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+                <div id="console-input">
+                    <div id="query-mark">?-</div>
+                    <pre id="content_Input"></pre>
+                </div>
+                <div id="console-output">
+                    <pre id="content_Output" class="source-code"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
